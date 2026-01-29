@@ -106,6 +106,38 @@ img {
     box-shadow: var(--shadow-sm);
     animation: slideDown 0.6s ease;
 }
+/* Style de base pour tous les liens */
+.nav-menu a {
+    color: var(--dark-gray);      /* Gris par défaut */
+    position: relative;
+}
+
+/* Le trait qui apparaît sous le lien */
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;                     /* Largeur 0 par défaut (invisible) */
+    height: 2px;
+    background: var(--accent-blue);
+    transition: width 0.3s ease;  /* Animation fluide */
+}
+
+/* Au survol, le trait se déploie */
+.nav-menu a:hover::after {
+    width: 100%;                  /* Le trait prend toute la largeur */
+}
+
+/* Pour le lien ACTIF (page actuelle) */
+.nav-menu a.active {
+    color: var(--primary-blue);   /* Texte bleu */
+}
+
+.nav-menu a.active::after {
+    width: 100%;                  /* Le trait est toujours visible */
+    background: var(--accent-blue); /* En bleu */
+}
 
 @keyframes slideDown {
     from {
@@ -827,13 +859,16 @@ img {
 .contact {
     padding: var(--spacing-xl) 0;
     background: var(--white);
+    min-height: 100vh;
+    padding-top: 120px;
 }
 
 .contact-wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 400px;
     gap: var(--spacing-xl);
     margin-top: var(--spacing-lg);
+    align-items: center;
 }
 
 .contact-intro {
@@ -841,16 +876,28 @@ img {
     color: var(--dark-gray);
     margin-bottom: var(--spacing-lg);
     line-height: 1.8;
+    text-align: center;
 }
 
 .contact-details {
-    margin-bottom: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
 }
 
 .contact-item {
     display: flex;
     gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-md);
+    background: var(--off-white);
+    padding: var(--spacing-md);
+    border-radius: 12px;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.contact-item:hover {
+    transform: translateX(8px);
+    box-shadow: var(--shadow-md);
 }
 
 .contact-icon {
@@ -874,14 +921,97 @@ img {
 .contact-item a {
     color: var(--accent-blue);
     font-weight: 500;
+    transition: var(--transition-base);
 }
 
 .contact-item a:hover {
+    color: var(--secondary-blue);
     text-decoration: underline;
 }
 
 .contact-item p {
     color: var(--dark-gray);
+}
+
+/* Photo Contact - Positionnée à droite */
+.photo-contact {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    height: 400px;
+    justify-self: center;
+    animation: fadeInRight 1s ease;
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.photo-contact a {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.contact-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 6px solid var(--white);
+    box-shadow: 
+        0 0 0 8px var(--accent-blue),
+        0 0 0 12px var(--light-blue),
+        var(--shadow-xl);
+    transition: all var(--transition-slow);
+    position: relative;
+    z-index: 2;
+}
+
+.contact-image:hover {
+    transform: scale(1.05) rotate(5deg);
+    box-shadow: 
+        0 0 0 8px var(--secondary-blue),
+        0 0 0 12px var(--sky-blue),
+        0 20px 60px rgba(30, 58, 95, 0.35);
+}
+
+/* Effet de brillance au survol */
+.photo-contact::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--secondary-blue), var(--primary-blue));
+    border-radius: 50%;
+    opacity: 0.2;
+    z-index: 1;
+    animation: rotate 10s linear infinite;
+}
+
+/* Effet décoratif montagne en arrière-plan */
+.photo-contact::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, transparent 50%, var(--ice-blue) 100%);
+    border-radius: 50%;
+    z-index: 0;
+    opacity: 0.3;
 }
 
 /* Social Links */
@@ -965,7 +1095,20 @@ img {
 /* ============================================
    Footer
    ============================================ */
-.footer {
+.footer-contact {
+    background: var(--dark-navy);  /* Fond noir (bleu très foncé) */
+    color: var(--white);            /* Texte blanc */
+    padding: var(--spacing-md) 0;   /* Espacement haut et bas */
+    text-align: center;             /* Texte centré horizontalement */
+    display: flex;                  /* Active Flexbox */
+    align-items: center;            /* Centre verticalement */
+    justify-content: center;        /* Centre horizontalement */
+    min-height: 80px;               /* Hauteur minimum */
+}
+
+
+
+   .footer {
     background: var(--dark-navy);
     color: var(--light-gray);
     padding: var(--spacing-xl) 0 var(--spacing-md);
@@ -1056,6 +1199,18 @@ img {
     
     .contact-wrapper {
         grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+    
+    .photo-contact {
+        width: 300px;
+        height: 300px;
+        margin: var(--spacing-lg) auto 0;
+        order: 2;
+    }
+    
+    .contact-info {
+        order: 1;
     }
     
     .footer-content {
@@ -1133,6 +1288,11 @@ img {
     .photo {
         width: 220px;
         height: 220px;
+    }
+    
+    .photo-contact {
+        width: 250px;
+        height: 250px;
     }
     
     .section-title {
